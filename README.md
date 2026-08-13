@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Family Meal Planner
 
-## Getting Started
+A parent describes their family in plain language once; the app remembers
+everyone's dietary restrictions and preferences and (eventually) plans the
+week's meals and a grocery list. Built with Next.js 14 (App Router),
+TypeScript, and Tailwind CSS.
 
-First, run the development server:
+This is **Phase 1**: family profile capture, AI parsing into structured JSON,
+an editable summary card, and localStorage persistence. The "Plan my week"
+screen is stubbed with dummy data — real recipe generation via Claude +
+web search comes in a later phase.
+
+## Setup
+
+```bash
+npm install
+cp .env.local.example .env.local
+```
+
+Add your Anthropic API key to `.env.local`:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Then run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` — start the dev server
+- `npm run build` — production build
+- `npm run start` — run the production build
+- `npm run lint` — lint
 
-## Learn More
+## Notes
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- No accounts, no database — the family profile lives entirely in the
+  browser's `localStorage` (key `fmp:family-profile:v1`).
+- The Anthropic API key is read server-side only (`lib/anthropic.ts`, called
+  from `app/api/parse-family/route.ts`) and never reaches the client.
+- Deploying to Vercel: set `ANTHROPIC_API_KEY` in the project's environment
+  variables.
